@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A lightweight system monitoring dashboard for your Windows, Linux or macOS computer.">
+  <title>SystemPulse — System Monitor</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script defer src="{{ url_for('static', filename='app.js') }}"></script>
+</head>
+<body>
+  <main class="shell">
+    <header class="topbar">
+      <a class="brand" href="/"><span class="brand-mark">S</span><span>SystemPulse</span></a>
+      <div class="top-meta"><span id="connection-indicator" class="connection-indicator is-offline"></span><span id="connection-text">Connecting to this device…</span><span class="separator">·</span><span id="last-updated">Waiting…</span></div>
+    </header>
+    <section class="intro">
+      <div><p class="eyebrow">SYSTEM OVERVIEW</p><h1>Your system, at a glance.</h1><p class="subtext" id="system-label">Connecting to your local monitor…</p></div>
+      <div class="host-chip"><span class="host-icon">⌘</span><span id="hostname">Local machine</span></div>
+    </section>
+    <section id="connection-help" class="connection-help">
+      <div><strong>Connect your computer to SystemPulse</strong><p>Keep this dashboard open and start the local monitor on the computer you want to inspect.</p>
+        <ol><li>Download or open the <a href="https://github.com/ankushdixit0001/SystemPulse" target="_blank" rel="noopener">SystemPulse project</a>.</li><li>Follow the Windows, Ubuntu/Linux or macOS setup instructions in its README.</li><li>Leave the monitor running, then click Retry connection.</li></ol>
+        <p class="help-note">Your metrics are read directly from your computer. The local monitor binds to 127.0.0.1 and is not exposed to your network.</p>
+      </div>
+      <button id="retry-connection" type="button">Retry connection</button>
+    </section>
+    <section class="metric-grid" aria-label="System resource usage">
+      <article class="metric-card"><div class="metric-heading"><span class="metric-icon cpu-icon">▥</span><span>CPU usage</span><span class="metric-live">LIVE</span></div><div class="metric-value"><strong id="cpu-value">—</strong><span>%</span></div><div class="meter"><span id="cpu-meter"></span></div><p class="metric-foot" id="cores-label">Processor utilization</p></article>
+      <article class="metric-card"><div class="metric-heading"><span class="metric-icon ram-icon">▤</span><span>Memory usage</span><span class="metric-live">LIVE</span></div><div class="metric-value"><strong id="memory-value">—</strong><span>%</span></div><div class="meter"><span id="memory-meter"></span></div><p class="metric-foot" id="memory-label">RAM in use</p></article>
+      <article class="metric-card"><div class="metric-heading"><span class="metric-icon disk-icon">▣</span><span>Disk usage</span></div><div class="metric-value"><strong id="disk-value">—</strong><span>%</span></div><div class="meter"><span id="disk-meter"></span></div><p class="metric-foot" id="disk-label">Storage used</p></article>
+    </section>
+    <section class="content-grid">
+      <article class="panel chart-panel"><div class="panel-heading"><div><p class="eyebrow">PERFORMANCE</p><h2>Resource activity</h2></div><span class="range-label">Last 60 updates</span></div><div class="chart-wrap"><canvas id="performance-chart" aria-label="CPU and memory usage chart"></canvas><p id="chart-unavailable" class="chart-fallback" hidden>Chart library unavailable. Numeric metrics are still updating.</p></div><div class="chart-legend"><span><i class="legend-dot cpu-dot"></i> CPU</span><span><i class="legend-dot ram-dot"></i> Memory</span></div></article>
+      <article class="panel info-panel"><div class="panel-heading"><div><p class="eyebrow">DEVICE</p><h2>System information</h2></div><span class="info-symbol">⌘</span></div><div class="info-list"><div><span>Operating system</span><strong id="os-value">—</strong></div><div><span>Processor cores</span><strong id="cores-value">—</strong></div><div><span>Total memory</span><strong id="total-memory">—</strong></div><div><span>System uptime</span><strong id="uptime-value">—</strong></div></div></article>
+    </section>
+    <section class="panel processes-panel"><div class="panel-heading process-heading"><div><p class="eyebrow">RUNNING TASKS</p><h2>Processes <span class="count-pill" id="process-count">0</span></h2></div><label class="search-box"><span>⌕</span><input id="process-search" type="search" placeholder="Search processes…" autocomplete="off"></label></div><div class="table-scroll"><table><thead><tr><th>PROCESS</th><th>PID</th><th>STATUS</th><th>CPU</th><th>MEMORY</th></tr></thead><tbody id="process-table"><tr><td colspan="5" class="empty-state">Waiting for local monitor…</td></tr></tbody></table></div><p class="table-note">Read-only view · Some system processes may be hidden by operating-system permissions.</p></section>
+    <footer><span>SystemPulse <span class="footer-muted">· Lightweight system monitor</span></span><span>Refreshes automatically every 3 seconds</span></footer>
+  </main>
+</body>
+</html>
